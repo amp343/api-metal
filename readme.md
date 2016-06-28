@@ -8,7 +8,7 @@ Micro micro foundation for creating a happy little php7 api in minutes
 
 ## Overview
 
-- Based on our existing group of API concerns, with crappy things removed, and helpful new things added.
+- Based on simple API concerns, with helpful things added.
 - Updated to leverage PHP7 goodness.
 
 #### What is metal?
