@@ -1,0 +1,12 @@
+{
+    "name": "amp343/api-metal-example",
+    "description": "api-metal example",
+    "autoload": {
+        "psr-4": {
+            "MyAPI\\": "src"
+        }
+    },
+    "require": {
+      "amp343/api-metal": "*"
+    }
+}

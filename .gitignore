@@ -1,0 +1,6 @@
+.DS_Store
+vendor
+reports
+report
+doc
+.php_cs.cache
