@@ -94,7 +94,9 @@ class Response
      */
     public function setError(\Exception $exception): Response
     {
-        $this->status = $exception->getCode();
+        $this->status = $exception->getCode() > 0
+            ? $exception->getCode()
+            : 500;
         $this->body = $this->buildErrorMessageJson($exception);
 
         return $this;
