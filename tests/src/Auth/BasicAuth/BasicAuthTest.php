@@ -2,8 +2,9 @@
 
 namespace ApiMetal\Auth\Tests\BasicAuth;
 
+use ApiMetal\Auth\Tests\TestCase;
 use ApiMetal\Auth\BasicAuth\BasicAuth;
-use ApiMetal\Tests\TestCase;
+use ApiMetal\Auth\BasicAuth\BasicAuthCredential;
 
 class BasicAuthTest extends TestCase
 {
@@ -12,7 +13,7 @@ class BasicAuthTest extends TestCase
      */
     public function getCredentialFromBasicAuthString_should_throw_a_TypeError_if_argument_1_basicAuthString_is_not_a_string()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             return BasicAuth::getCredentialFromBasicAuthString([]);
         });
     }
@@ -30,7 +31,7 @@ class BasicAuthTest extends TestCase
 
         $this->assertEquals($credential->getUser(), $expectedUser);
         $this->assertEquals($credential->getPassword(), $expectedPassword);
-        $this->assertInstanceOf('\\ApiMetal\\Auth\\BasicAuth\\BasicAuthCredential', $credential);
+        $this->assertInstanceOf(BasicAuthCredential::class, $credential);
     }
 
     /**
@@ -38,7 +39,7 @@ class BasicAuthTest extends TestCase
      */
     public function isBasicAuthString_should_throw_a_TypeError_if_argument_1_basicAuthString_is_not_a_string()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             return BasicAuth::isBasicAuthString([]);
         });
     }

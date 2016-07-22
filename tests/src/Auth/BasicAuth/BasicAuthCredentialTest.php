@@ -2,8 +2,8 @@
 
 namespace ApiMetal\Auth\Tests\BasicAuth;
 
+use ApiMetal\Auth\Tests\TestCase;
 use ApiMetal\Auth\BasicAuth\BasicAuthCredential;
-use ApiMetal\Tests\TestCase;
 
 class BasicAuthCredentialTest extends TestCase
 {
@@ -12,7 +12,7 @@ class BasicAuthCredentialTest extends TestCase
      */
     public function construct_should_throw_a_TypeError_if_argument_1_user_is_not_a_string()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             return new BasicAuthCredential([], '');
         });
     }
@@ -22,7 +22,7 @@ class BasicAuthCredentialTest extends TestCase
      */
     public function construct_should_throw_a_TypeError_if_argument_2_password_is_not_a_string()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             return new BasicAuthCredential('', []);
         });
     }
@@ -124,7 +124,7 @@ class BasicAuthCredentialTest extends TestCase
      */
     public function isMatch_should_throw_a_TypeError_if_argument_1_credentialA_is_not_a_BasicAuthCredential()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             $credential = new BasicAuthCredential('', '');
             return BasicAuthCredential::isMatch([], $credential);
         });
@@ -135,7 +135,7 @@ class BasicAuthCredentialTest extends TestCase
      */
     public function isMatch_should_throw_a_TypeError_if_argument_2_credentialB_is_not_a_BasicAuthCredential()
     {
-        $this->assertTypeError(function () {
+        $this->assertTypeError(function() {
             $credential = new BasicAuthCredential('', '');
             return BasicAuthCredential::isMatch($credential, []);
         });
@@ -144,36 +144,42 @@ class BasicAuthCredentialTest extends TestCase
     /**
      * @test
      */
-    public function getEncodedCredential_should_return_the_expected_encoded_credential_string()
+    public function getEncodedCredential_should_return_the_base64_encoded_user_colon_password_string()
     {
         $user = 'user';
         $password = 'password';
-        $expected = base64_encode("{$user}:{$password}");
 
-        $this->assertEquals((new BasicAuthCredential($user, $password))->getEncodedCredential(), $expected);
+        $this->assertEquals(
+            (new BasicAuthCredential($user, $password))->getEncodedCredential(),
+            base64_encode($user . ":" . $password)
+        );
     }
 
     /**
      * @test
      */
-    public function getEncodedHeaderValue_should_return_the_encoded_credential_string_with_the_Basic_prefix()
+    public function getEncodedHeaderValue_should_return_the_base64_encoded_user_colon_password_string_prepended_with_the_word_Basic()
     {
         $user = 'user';
         $password = 'password';
-        $expected = "Basic " . base64_encode("{$user}:{$password}");
 
-        $this->assertEquals((new BasicAuthCredential($user, $password))->getEncodedHeaderValue(), $expected);
+        $this->assertEquals(
+            (new BasicAuthCredential($user, $password))->getEncodedHeaderValue(),
+            'Basic ' . base64_encode($user . ":" . $password)
+        );
     }
 
     /**
      * @test
      */
-    public function getEncodedHeader_should_return_an_array_with_key_Authorization_and_value_equal_to_the_encoded_basic_auth_credential_string()
+    public function getEncodedHeader_should_return_the_full_Authorization_array()
     {
         $user = 'user';
         $password = 'password';
-        $expected = ['Authorization' => "Basic " . base64_encode("{$user}:{$password}")];
 
-        $this->assertEquals((new BasicAuthCredential($user, $password))->getEncodedHeader(), $expected);
+        $this->assertEquals(
+            (new BasicAuthCredential($user, $password))->getEncodedHeader(),
+            ['Authorization' => 'Basic ' . base64_encode($user . ":" . $password)]
+        );
     }
 }
