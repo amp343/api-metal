@@ -345,7 +345,10 @@ class Request
     {
         $server = $this->getServer();
 
-        $url = (array_key_exists('HTTPS', $server) && $server['HTTPS'] == 'on')
+        $url = (
+            (array_key_exists('HTTPS', $server) && $server['HTTPS'] == 'on')
+            || (array_key_exists('HTTP_X_FORWARDED_PROTO', $server) && $server['HTTP_X_FORWARDED_PROTO'] == 'https')
+        )
             ? 'https://'
             : 'http://';
 
